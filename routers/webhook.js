@@ -43,12 +43,10 @@ router.post("/", function(req, res){
         if (messagingEvent.message) {
           bot.sayHi(senderID);
         } else if (messagingEvent.postback) {
-          bot.handlePostback(messagingEvent);
+          handlePostback(messagingEvent);
         } else {
           console.low("unknown event " + messagingEvent);
         }
-
-
 
       });
     });
@@ -57,5 +55,17 @@ router.post("/", function(req, res){
     res.sendStatus(200);
   }
 });
+
+
+
+function handlePostback(event){
+  var senderID = event.sender.id;
+  var payload = event.postback.payload;
+
+  if( payload == "START_CONNECT_WITH_FRIEND" ){
+    bot.startConnectWithFriend();
+  }
+
+}
 
 module.exports = router;
