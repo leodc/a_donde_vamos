@@ -78,5 +78,5 @@ function sayHi(senderID){
 
 module.exports = {
   sayHi: sayHi,
-  handlePostback: handlePostback
+  startConnectWithFriend: startConnectWithFriend
 };
