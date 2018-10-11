@@ -9,4 +9,4 @@ RUN npm install
 
 EXPOSE 80
 
-CMD ["node", "webhook.js"]
+CMD ["node", "bot.js"]
