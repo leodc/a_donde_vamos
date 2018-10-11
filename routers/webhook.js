@@ -41,9 +41,14 @@ router.post("/", function(req, res){
         var senderID = messagingEvent.sender.id;
 
         if (messagingEvent.message) {
-          bot.sayHi(senderID);
-        } else if (messagingEvent.quick_reply.payload) {
-          handlePostback(messagingEvent);
+          var message = messagingEvent.message;
+
+          if (message.quick_reply) {
+            handleQuickReply(messagingEvent);
+          }else{
+            bot.sayHi(senderID);
+          }
+
         } else {
           console.low("unknown event " + messagingEvent);
         }
@@ -58,9 +63,9 @@ router.post("/", function(req, res){
 
 
 
-function handlePostback(event){
+function handleQuickReply(event){
   var senderID = event.sender.id;
-  var payload = event.quick_reply.payload;
+  var payload = event.message.quick_reply.payload;
 
   if( payload == "START_CONNECT_WITH_FRIEND" ){
     bot.startConnectWithFriend(senderID);
