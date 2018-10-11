@@ -15,7 +15,7 @@ function send(messageData) {
 
 function getUserData(userID, callback){
   request({
-      uri: 'https://graph.facebook.com/v2.6/' + userID + '?access_token=' + BOT_ACCESS_TOKEN,
+      uri: 'https://graph.facebook.com/v2.6/' + userID + '?access_token=' + process.env.BOT_ACCESS_TOKEN,
       method: 'GET',
   }, callback);
 }
