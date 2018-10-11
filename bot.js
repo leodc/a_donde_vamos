@@ -22,6 +22,31 @@ function startConnectWithFriend(senderID){
 
     data = JSON.parse(data);
 
+    var sharedMessage = {
+      "attachment": {
+        "type": "template",
+
+        "payload":{
+            "template_type":"generic",
+            "elements": [
+                {
+                    "title": "Conectar con " + data["first_name"],
+                    "image_url": data.profile_pic,
+                    "subtitle": "Si deseas crear tu propio cuadro para conectar enviame un mensaje!",
+                    "buttons":[
+                        {
+                            "type": "postback",
+                            "title": "Conectar con " + data["first_name"],
+                            "payload": "payload_connect_with_" + senderID
+                        }
+                    ]
+                }
+            ]
+        }
+
+      }
+    }
+
     var message = {
       "attachment":{
           "type":"template",
@@ -31,15 +56,11 @@ function startConnectWithFriend(senderID){
                   {
                       "title": "Conectar con " + data["first_name"],
                       "image_url": data.profile_pic,
-                      "subtitle": "Si deseas crear tu propio cuadro para conectar enviame un mensaje!",
+                      "subtitle": "Comparte este cuadro con la persona que deseas conectar, cuando recibamos una respuesta te enviaremos un mensaje",
                       "buttons":[
                           {
-                              "type": "postback",
-                              "title": "Conectar con " + data["first_name"],
-                              "payload": "payload_connect_with_" + senderID
-                          },
-                          {
-                              "type":"element_share"
+                              "type":"element_share",
+                              "share_contents": sharedMessage
                           }
                       ]
                   }
