@@ -29,6 +29,8 @@ router.get('/', function(req, res){
 router.post("/", function(req, res){
   var data = req.body;
 
+  console.log("event recieved", data);
+
   // Checks this is an event from a page subscription
   if (data.object == 'page') {
 
@@ -39,7 +41,8 @@ router.post("/", function(req, res){
       pageEntry.messaging.forEach(function(messagingEvent) {
         console.log("message: " + messagingEvent);
 
-        bot.sayHi();
+        var senderID = messagingEvent.sender.id;
+        bot.sayHi(senderID);
       });
     });
 
