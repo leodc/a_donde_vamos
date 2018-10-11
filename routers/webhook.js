@@ -29,8 +29,6 @@ router.get('/', function(req, res){
 router.post("/", function(req, res){
   var data = req.body;
 
-  console.log("event recieved", data);
-
   // Checks this is an event from a page subscription
   if (data.object == 'page') {
 
@@ -39,10 +37,19 @@ router.post("/", function(req, res){
     data.entry.forEach(function(pageEntry) {
       // Iterate over each messaging event
       pageEntry.messaging.forEach(function(messagingEvent) {
-        console.log("message: " + messagingEvent);
-
+        console.log("message: " + JSON.stringify(messagingEvent));
         var senderID = messagingEvent.sender.id;
-        bot.sayHi(senderID);
+
+        if (messagingEvent.message) {
+          bot.sayHi(senderID);
+        } else if (messagingEvent.postback) {
+          bot.handlePostback(messagingEvent);
+        } else {
+          console.low("unknown event " + messagingEvent);
+        }
+
+
+
       });
     });
 
