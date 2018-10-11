@@ -1,65 +1,32 @@
-var express = require("express");
-var bodyParser = require("body-parser");
+var facebookAPI = require("./libs/facebookApi")
 
-// creates express http server
-var app = express().use(bodyParser.json());
+function sayHi(senderID){
+  var helloMessage = "¡ Hola ! yo te puedo ayudar a encontrar lugares de interes cercanos a ti, perfectos para llegar en bicicleta o caminando :).\n\nPara iniciar solo comparte tu ubicación conmigo o usa alguno de los botones debajo:";
 
-
-// Creates the webhook endpoint
-app.post("/webhook", (req, res) => {
-  var body = req.body;
-
-  // Checks this is an event from a page subscription
-  if (body.object === "page") {
-
-    // Iterates over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
-
-      // Gets the message. entry.messaging is an array, but
-      // will only ever contain one message, so we get index 0
-      var webhook_event = entry.messaging[0];
-      console.log(webhook_event);
-    });
-
-    // Returns a "200 OK" response to all requests
-    res.status(200).send("EVENT_RECEIVED");
-  } else {
-    // Returns a "404 Not Found" if event is not from a page subscription
-    res.sendStatus(404);
-  }
-
-});
-
-
-// Adds support for GET requests to our webhook
-app.get("/webhook", (req, res) => {
-
-  // Your verify token. Should be a random string.
-  var VERIFY_TOKEN = process.env.WEBHOOK_TOKEN
-
-  // Parse the query params
-  var mode = req.query["hub.mode"];
-  var token = req.query["hub.verify_token"];
-  var challenge = req.query["hub.challenge"];
-
-  // Checks if a token and mode is in the query string of the request
-  if (mode && token) {
-
-    // Checks the mode and token sent is correct
-    if (mode === "subscribe" && token === VERIFY_TOKEN) {
-
-      // Responds with the challenge token from the request
-      console.log("WEBHOOK_VERIFIED");
-      res.status(200).send(challenge);
-
-    } else {
-      // Responds with "403 Forbidden" if verify tokens do not match
-      res.sendStatus(403);
+  var message = {
+    "recipient":{
+      "id": senderID
+    },
+    "message":{
+      "text": helloMessage,
+      "quick_replies":[
+        {
+          "content_type":"location"
+        },
+        {
+          "content_type": "text",
+          "title": "Conectar con un amigo",
+          "payload": "SEND_USER_SHARE"
+        }
+      ]
     }
-  }
-});
+  };
+
+  console.log("Saying hi...");
+  facebookAPI.send(message);
+}
 
 
-
-// Sets server port and logs message on success
-app.listen(process.env.PORT || 80, () => console.log("webhook is listening"));
+module.exports = {
+  sayHi: sayHi
+};
