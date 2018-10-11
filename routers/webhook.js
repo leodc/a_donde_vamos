@@ -42,7 +42,7 @@ router.post("/", function(req, res){
 
         if (messagingEvent.message) {
           bot.sayHi(senderID);
-        } else if (messagingEvent.postback) {
+        } else if (messagingEvent.quick_reply.payload) {
           handlePostback(messagingEvent);
         } else {
           console.low("unknown event " + messagingEvent);
@@ -60,10 +60,10 @@ router.post("/", function(req, res){
 
 function handlePostback(event){
   var senderID = event.sender.id;
-  var payload = event.postback.payload;
+  var payload = event.quick_reply.payload;
 
   if( payload == "START_CONNECT_WITH_FRIEND" ){
-    bot.startConnectWithFriend();
+    bot.startConnectWithFriend(senderID);
   }
 
 }
