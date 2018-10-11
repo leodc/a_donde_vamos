@@ -20,7 +20,7 @@ function startConnectWithFriend(senderID){
       console.log("Error getting user data: " + senderID);
     }
 
-    data = json.parse(data);
+    data = JSON.parse(data);
 
     var message = {
       "attachment":{
