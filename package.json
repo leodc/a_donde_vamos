@@ -1,0 +1,23 @@
+{
+  "name": "a_donde_vamos",
+  "version": "0.1.0",
+  "description": "Messenger bot",
+  "main": "webhook.js",
+  "scripts": {
+    "start": "node webhook.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leodc/a_donde_vamos.git"
+  },
+  "author": "Leonel Castañeda <leodcastaneda@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leodc/a_donde_vamos/issues"
+  },
+  "homepage": "https://github.com/leodc/a_donde_vamos#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4"
+  }
+}
